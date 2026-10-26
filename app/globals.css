@@ -1,26 +1,198 @@
 @import "tailwindcss";
 
+/* ---------- Design tokens ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #FBF8F3;
+  --surface: #FFFFFF;
+  --text: #2A2420;
+  --muted: #6E655C;
+  --border: #E6DFD3;
+  --accent: #8C2F39;
+  --accent-contrast: #FFFFFF;
+  --accent-soft: #F3E3E5;
+  --shadow: 0 1px 2px rgba(42,36,32,.04), 0 8px 24px rgba(42,36,32,.06);
+  --shadow-lg: 0 2px 4px rgba(42,36,32,.05), 0 20px 48px rgba(42,36,32,.12);
+  --radius: 4px;
+  --radius-lg: 10px;
+  --font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-reading: var(--font-literata), "Iowan Old Style", Georgia, serif;
+  --font-ui: var(--font-inter), system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-dys: var(--font-atkinson), "Atkinson Hyperlegible", sans-serif;
+  --reading-size: 19px;
+  --reading-lh: 1.75;
+  --reading-family: var(--font-reading);
+  --measure: 680px;
+  --header-h: 64px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="sepia"] {
+  --bg: #F4ECD8;
+  --surface: #EFE4CA;
+  --text: #433422;
+  --muted: #7A6A52;
+  --border: #D9CBAA;
+  --accent: #8C2F39;
+  --accent-contrast: #FFFFFF;
+  --accent-soft: #E8D4C2;
 }
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
+  --bg: #14110F;
+  --surface: #1E1A17;
+  --text: #E8E1D6;
+  --muted: #A39A8D;
+  --border: #2E2824;
+  --accent: #D98A8F;
+  --accent-contrast: #14110F;
+  --accent-soft: #2A1E20;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --shadow-lg: 0 2px 4px rgba(0,0,0,.4), 0 20px 48px rgba(0,0,0,.5);
+}
+
+@media (max-width: 640px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --reading-size: 18px;
   }
 }
 
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .25s ease, color .25s ease;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* Typography elements */
+.font-serif-title {
+  font-family: var(--font-serif);
+}
+
+.font-reading-text {
+  font-family: var(--reading-family);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
+}
+
+/* Dropcap styling */
+.reader-content.dropcap p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.6em;
+  float: left;
+  line-height: 0.9;
+  padding: 6px 10px 0 0;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* Scene break ornament */
+.scene-break {
+  text-align: center;
+  margin: 2.2em 0;
+  color: var(--muted);
+  letter-spacing: 0.6em;
+  font-size: 18px;
+}
+.scene-break::before {
+  content: "• • •";
+}
+
+/* Typographic covers */
+.book-cover {
+  aspect-ratio: 2/3;
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px;
+  color: #fff;
+  font-family: var(--font-serif);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.book-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,.18), transparent 45%),
+    radial-gradient(circle at 80% 90%, rgba(0,0,0,.35), transparent 50%);
+  pointer-events: none;
+}
+
+.book-cover .cover-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.book-cover .cover-author {
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: .85;
+  margin-bottom: auto;
+}
+
+.book-cover .cover-title {
+  font-size: clamp(20px, 3vw, 26px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+  margin-top: auto;
+}
+
+.book-cover .cover-ornament {
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: .5;
+  margin: 10px 0;
+}
+
+.cover-a { background: linear-gradient(145deg, #2a1a1c 0%, #8c2f39 55%, #4a1a20 100%); }
+.cover-b { background: linear-gradient(145deg, #1f2a35 0%, #3a4a5c 55%, #1a222c 100%); }
+.cover-c { background: linear-gradient(145deg, #3a2a18 0%, #8c6a3a 55%, #2a1e10 100%); }
+.cover-d { background: linear-gradient(145deg, #1e2a24 0%, #3a5a48 55%, #14201a 100%); }
+
+/* Subtle button base */
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.btn-accent:hover {
+  filter: brightness(1.08);
 }
