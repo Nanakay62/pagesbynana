@@ -1,13 +1,10 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getPublishedBooks } from '@/lib/supabase-server';
+import { getAllAdminBooks } from '@/lib/supabase-server';
 import { ArrowLeft, Plus, Eye, Edit3 } from 'lucide-react';
 import { calculateReadingTime, formatWords } from '@/lib/reading-time';
 
-export async function generateStaticParams() {
-  const books = await getPublishedBooks();
-  return books.map((b) => ({ id: b.id }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function AdminBookDetailPage({
   params,
@@ -15,7 +12,7 @@ export default async function AdminBookDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const books = await getPublishedBooks();
+  const books = await getAllAdminBooks();
   const book = books.find((b) => b.id === id);
 
   if (!book) {

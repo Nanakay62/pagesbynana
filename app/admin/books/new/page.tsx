@@ -26,16 +26,38 @@ export default function NewBookPage() {
     setSlug(autoSlug);
   };
 
+  const [error, setError] = useState('');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
+    setError('');
 
-    // Save logic (or mock save in state)
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/admin/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          slug,
+          genre,
+          synopsis,
+          status,
+          cover_url: coverUrl,
+          is_featured: isFeatured,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to create book');
+      }
+
+      router.push(`/admin/books/${data.book.id}`);
+    } catch (err: any) {
+      setError(err.message || 'Error creating book');
       setIsSaving(false);
-      alert(`Book "${title}" created successfully!`);
-      router.push('/admin/books');
-    }, 600);
+    }
   };
 
   return (
@@ -55,6 +77,12 @@ export default function NewBookPage() {
       <p className="text-[13.5px] text-[var(--muted)] mb-8">
         Add the book details. Once created, you can write chapters or import a Word file.
       </p>
+
+      {error && (
+        <div className="mb-6 p-4 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 text-[13.5px]">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6 bg-[var(--surface)] p-6 sm:p-8 rounded-[var(--radius-lg)] border border-[var(--border)] shadow-sm">
         <div>

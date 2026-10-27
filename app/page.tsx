@@ -27,12 +27,14 @@ export default async function HomePage() {
               Pages by Nana is a small home for original fiction. No accounts, no paywalls, no noise — just books, chapters, and the time to read them properly.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link
-                href={`/books/${featured.slug}`}
-                className="inline-flex items-center justify-center px-6 py-3 rounded text-[15px] font-medium bg-[var(--accent)] text-[var(--accent-contrast)] hover:filter hover:brightness-105 transition-all hover:no-underline"
-              >
-                Start reading
-              </Link>
+              {featured ? (
+                <Link
+                  href={`/books/${featured.slug}`}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded text-[15px] font-medium bg-[var(--accent)] text-[var(--accent-contrast)] hover:filter hover:brightness-105 transition-all hover:no-underline"
+                >
+                  Start reading
+                </Link>
+              ) : null}
               <Link
                 href="/books"
                 className="inline-flex items-center justify-center px-6 py-3 rounded text-[15px] font-medium border border-[var(--border)] text-[var(--text)] hover:border-[var(--text)] transition-colors hover:no-underline"
@@ -43,17 +45,24 @@ export default async function HomePage() {
           </div>
 
           <div className="flex justify-center">
-            <Link
-              href={`/books/${featured.slug}`}
-              className="w-full max-w-[280px] group transition-transform hover:-translate-y-1 hover:no-underline"
-              aria-label={`Featured: ${featured.title}`}
-            >
-              <BookCover
-                title={featured.title}
-                coverStyle={featured.cover_url || 'cover-a'}
-                className="shadow-[var(--shadow-lg)]"
-              />
-            </Link>
+            {featured ? (
+              <Link
+                href={`/books/${featured.slug}`}
+                className="w-full max-w-[280px] group transition-transform hover:-translate-y-1 hover:no-underline"
+                aria-label={`Featured: ${featured.title}`}
+              >
+                <BookCover
+                  title={featured.title}
+                  coverStyle={featured.cover_url || 'cover-a'}
+                  className="shadow-[var(--shadow-lg)]"
+                />
+              </Link>
+            ) : (
+              <div className="w-full max-w-[280px] h-[360px] rounded-[var(--radius-lg)] border-2 border-dashed border-[var(--border)] bg-[var(--surface)] flex flex-col items-center justify-center p-6 text-center text-[var(--muted)]">
+                <span className="font-serif-title text-[20px] mb-2 text-[var(--text)]">Pages by Nana</span>
+                <span className="text-[13px]">Original fiction coming soon.</span>
+              </div>
+            )}
           </div>
         </section>
 

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ExtractedChapter } from '@/lib/import-docx';
-import { SAMPLE_BOOKS } from '@/lib/sample-data';
 import { calculateReadingTime, formatWords } from '@/lib/reading-time';
 import {
   FileUp,
@@ -25,10 +24,23 @@ export default function WordImportPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
   const [chapters, setChapters] = useState<ExtractedChapter[]>([]);
-  const [selectedBookId, setSelectedBookId] = useState(SAMPLE_BOOKS[0].id);
+  const [books, setBooks] = useState<any[]>([]);
+  const [selectedBookId, setSelectedBookId] = useState('');
   const [saveStatus, setSaveStatus] = useState<'draft' | 'published'>('draft');
   const [isSaving, setIsSaving] = useState(false);
   const [editingTitleIndex, setEditingTitleIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/books')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.books && data.books.length > 0) {
+          setBooks(data.books);
+          setSelectedBookId(data.books[0].id);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleFileChange = async (selectedFile: File) => {
     setFile(selectedFile);
@@ -145,14 +157,33 @@ export default function WordImportPage() {
   };
 
   const handleConfirmSave = async () => {
+    if (!selectedBookId) {
+      alert('Please select or create a book first before saving chapters.');
+      return;
+    }
     setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      alert(
-        `Successfully imported ${chapters.length} chapters as ${saveStatus.toUpperCase()} into your manuscript!`
-      );
+    try {
+      const res = await fetch('/api/admin/chapters', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookId: selectedBookId,
+          chapters,
+          status: saveStatus,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save chapters');
+      }
+
+      alert(`Successfully saved ${data.count || chapters.length} chapters to your book!`);
       router.push(`/admin/books/${selectedBookId}`);
-    }, 800);
+    } catch (err: any) {
+      alert(err.message || 'Error saving chapters');
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -231,17 +262,32 @@ export default function WordImportPage() {
                 <label className="block text-[11px] uppercase tracking-wider font-semibold text-[var(--muted)] mb-1">
                   Assign to Book
                 </label>
-                <select
-                  value={selectedBookId}
-                  onChange={(e) => setSelectedBookId(e.target.value)}
-                  className="px-3 py-1.5 rounded border border-[var(--border)] bg-[var(--bg)] text-[var(--text)] text-[13.5px] font-medium"
-                >
-                  {SAMPLE_BOOKS.map((b) => (
-                    <option key={b.id} value={b.id}>
-                      {b.title}
-                    </option>
-                  ))}
-                </select>
+                {books.length > 0 ? (
+                  <select
+                    value={selectedBookId}
+                    onChange={(e) => setSelectedBookId(e.target.value)}
+                    className="px-3 py-1.5 rounded border border-[var(--border)] bg-[var(--bg)] text-[var(--text)] text-[13.5px] font-medium"
+                  >
+                    {books.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.title}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <span className="text-[12.5px] text-amber-600 dark:text-amber-400">
+                      No books found.
+                    </span>
+                    <Link
+                      href="/admin/books/new"
+                      target="_blank"
+                      className="text-[12.5px] text-[var(--accent)] underline"
+                    >
+                      + Create book
+                    </Link>
+                  </div>
+                )}
               </div>
 
               <div>
