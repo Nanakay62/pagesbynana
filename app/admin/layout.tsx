@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { BookOpen, BarChart3, Settings, Users, FileText, ArrowLeft } from 'lucide-react';
 
 export const metadata = {
-  title: 'Admin Dashboard — Pages by Nana',
+  title: 'Admin Dashboard | Pages by Nana',
   robots: {
     index: false,
     follow: false,

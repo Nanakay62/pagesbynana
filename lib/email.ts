@@ -25,8 +25,8 @@ export async function sendConfirmationEmail({
   const unsubscribeUrl = `${baseUrl}/unsubscribe?token=${token}`;
 
   const subject = bookTitle
-    ? `Confirm your subscription to ${bookTitle} — Pages by Nana`
-    : `Confirm your subscription — Pages by Nana`;
+    ? `Confirm your subscription to ${bookTitle} | Pages by Nana`
+    : `Confirm your subscription | Pages by Nana`;
 
   const html = `
 <!DOCTYPE html>

@@ -66,7 +66,7 @@ export async function POST(request: Request) {
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Check Your Inbox — Pages by Nana</title>
+  <title>Check Your Inbox | Pages by Nana</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { margin: 0; padding: 40px 20px; background-color: #FBF8F3; color: #2A2420; font-family: -apple-system, BlinkMacSystemFont, 'Literata', Georgia, serif; line-height: 1.6; text-align: center; }

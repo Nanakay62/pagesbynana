@@ -16,12 +16,12 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const book = await getBookBySlug(slug);
-  if (!book) return { title: 'Book Not Found — Pages by Nana' };
+  if (!book) return { title: 'Book Not Found | Pages by Nana' };
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pagesbynana.com';
 
   return {
-    title: `${book.title} — Pages by Nana`,
+    title: `${book.title} | Pages by Nana`,
     description: book.synopsis || `Read ${book.title} by Nana Kwame Dickson.`,
     alternates: {
       canonical: `${baseUrl}/books/${book.slug}`,
@@ -30,7 +30,7 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: `${book.title} — Pages by Nana`,
+      title: `${book.title} | Pages by Nana`,
       description: book.synopsis || `Original fiction by Nana Kwame Dickson.`,
       url: `${baseUrl}/books/${book.slug}`,
       type: 'book',
@@ -38,7 +38,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${book.title} — Pages by Nana`,
+      title: `${book.title} | Pages by Nana`,
       description: book.synopsis,
     },
   };

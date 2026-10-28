@@ -326,7 +326,7 @@ export default function WordImportPage() {
           {/* Chapters List */}
           <div className="space-y-3">
             <div className="text-[12px] uppercase tracking-wider font-semibold text-[var(--muted)] px-1">
-              Detected Chapters ({chapters.length}) — Click title to rename, merge or delete as needed
+              Detected Chapters ({chapters.length}): Click title to rename, merge or delete as needed
             </div>
 
             {chapters.map((chap, idx) => (

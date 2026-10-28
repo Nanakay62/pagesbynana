@@ -29,7 +29,7 @@ const atkinson = Atkinson_Hyperlegible({
 });
 
 export const metadata: Metadata = {
-  title: 'Pages by Nana — Original fiction, quietly told',
+  title: 'Pages by Nana | Original fiction, quietly told',
   description: 'A quiet home for original fiction. Read books chapter by chapter, free, with no account required.',
 };
 

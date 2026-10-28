@@ -26,7 +26,7 @@ export default async function UnsubscribePage({
             You Have Been Unsubscribed
           </h1>
           <p className="text-[15.5px] leading-relaxed text-[var(--muted)] mb-8">
-            You will no longer receive chapter release emails from Pages by Nana. You can always visit and read anytime—all books remain completely free and open.
+            You will no longer receive chapter release emails from Pages by Nana. You can always visit and read anytime. All books remain completely free and open.
           </p>
           <Link
             href="/"

@@ -2,7 +2,7 @@ import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 
 export const metadata = {
-  title: 'Privacy Notice — Pages by Nana',
+  title: 'Privacy Notice | Pages by Nana',
   description: 'Cookie-free, distraction-free reading privacy policy.',
 };
 

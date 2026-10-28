@@ -4,7 +4,7 @@ import BooksLibraryClient from './BooksLibraryClient';
 import { getPublishedBooks } from '@/lib/supabase-server';
 
 export const metadata = {
-  title: 'Library — Pages by Nana',
+  title: 'Library | Pages by Nana',
   description: 'Browse all original fiction, books, and chapters.',
 };
 
@@ -22,7 +22,7 @@ export default async function LibraryPage() {
           All books
         </h1>
         <p className="text-[16px] text-[var(--muted)] max-w-xl mb-8 leading-relaxed">
-          Four works in progress and completed novellas. Read in any order. Come back any time — your browser will remember where you left off.
+          Original fiction and serials. Read in any order. Come back any time: your browser will remember where you left off.
         </p>
 
         <BooksLibraryClient books={books} />

@@ -82,7 +82,7 @@ export default async function AdminBooksPage() {
                     <td className="py-3.5 px-4 font-medium text-[var(--text)]">
                       {b.title}
                     </td>
-                    <td className="py-3.5 px-4 text-[var(--muted)]">{b.genre || '—'}</td>
+                    <td className="py-3.5 px-4 text-[var(--muted)]">{b.genre || '-'}</td>
                     <td className="py-3.5 px-4 text-[var(--muted)]">{chaps}</td>
                     <td className="py-3.5 px-4 text-[var(--muted)]">{formatWords(words)}</td>
                     <td className="py-3.5 px-4">

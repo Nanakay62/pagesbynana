@@ -44,7 +44,7 @@ export async function GET(
   const xml = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${book.title} — Pages by Nana</title>
+    <title>${book.title} | Pages by Nana</title>
     <link>${baseUrl}/books/${book.slug}</link>
     <description>${book.synopsis || `Chapters of ${book.title} by Nana Kwame Dickson.`}</description>
     <language>en-us</language>

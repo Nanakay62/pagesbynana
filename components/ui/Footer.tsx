@@ -12,7 +12,7 @@ export default function Footer() {
             About
           </Link>
           <Link href="/support" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors hover:no-underline">
-            Support (Paystack)
+            Support
           </Link>
           <Link href="/privacy" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors hover:no-underline">
             Privacy

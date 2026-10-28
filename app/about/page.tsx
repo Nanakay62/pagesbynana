@@ -2,7 +2,7 @@ import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 
 export const metadata = {
-  title: 'About the Author — Pages by Nana',
+  title: 'About the Author | Pages by Nana',
   description: 'About Nana Kwame Dickson and Pages by Nana.',
 };
 

@@ -24,13 +24,13 @@ export default async function HomePage() {
               Stories told slowly, in a <em className="italic text-[var(--accent)] font-serif-title">quiet</em> corner of the internet.
             </h1>
             <p className="text-[16.5px] leading-relaxed text-[var(--muted)] max-w-[500px] mb-6">
-              Pages by Nana is a small home for original fiction. No accounts, no paywalls, no noise — just books, chapters, and the time to read them properly.
+              Pages by Nana is a small home for original fiction. No accounts, no paywalls, no noise: just books, chapters, and the time to read them properly.
             </p>
             <div className="flex flex-wrap gap-3">
               {featured ? (
                 <Link
                   href={`/books/${featured.slug}`}
-                  className="inline-flex items-center justify-center px-6 py-3 rounded text-[15px] font-medium bg-[var(--accent)] text-[var(--accent-contrast)] hover:filter hover:brightness-105 transition-all hover:no-underline"
+                  className="btn-accent inline-flex items-center justify-center px-6 py-3 rounded text-[15px] font-medium bg-[var(--accent)] text-white hover:filter hover:brightness-105 transition-all hover:no-underline"
                 >
                   Start reading
                 </Link>

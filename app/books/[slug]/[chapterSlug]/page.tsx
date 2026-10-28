@@ -20,19 +20,19 @@ export async function generateMetadata({
 }) {
   const { slug, chapterSlug } = await params;
   const data = await getChapter(slug, chapterSlug);
-  if (!data) return { title: 'Chapter Not Found — Pages by Nana' };
+  if (!data) return { title: 'Chapter Not Found | Pages by Nana' };
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pagesbynana.com';
   const chapterUrl = `${baseUrl}/books/${data.book.slug}/${data.chapter.slug}`;
 
   return {
-    title: `${data.chapter.title} — ${data.book.title} | Pages by Nana`,
+    title: `${data.chapter.title}: ${data.book.title} | Pages by Nana`,
     description: `Read Chapter ${data.chapter.number} of ${data.book.title} online. Free, distraction-free reading.`,
     alternates: {
       canonical: chapterUrl,
     },
     openGraph: {
-      title: `${data.chapter.title} — ${data.book.title}`,
+      title: `${data.chapter.title}: ${data.book.title}`,
       description: `Read Chapter ${data.chapter.number} of ${data.book.title} online by Nana Kwame Dickson.`,
       url: chapterUrl,
       type: 'article',
@@ -40,7 +40,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary',
-      title: `${data.chapter.title} — ${data.book.title}`,
+      title: `${data.chapter.title}: ${data.book.title}`,
       description: `Chapter ${data.chapter.number} of ${data.book.title} online.`,
     },
   };

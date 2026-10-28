@@ -3,8 +3,8 @@ import Footer from '@/components/ui/Footer';
 import SupportLinks from '@/components/support/SupportLinks';
 
 export const metadata = {
-  title: 'Support the Author — Pages by Nana',
-  description: 'Optional tips and donations via Paystack (Mobile Money / Cards) or Ko-fi.',
+  title: 'Support the Author | Pages by Nana',
+  description: 'Optional tips and donations via Mobile Money and Cards.',
 };
 
 export default function SupportPage() {

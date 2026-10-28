@@ -27,7 +27,7 @@ export async function GET() {
 
       return `
     <item>
-      <title><![CDATA[${book.title} — Chapter ${chapter.number}: ${chapter.title}]]></title>
+      <title><![CDATA[${book.title}: Chapter ${chapter.number}: ${chapter.title}]]></title>
       <link>${url}</link>
       <guid>${url}</guid>
       <pubDate>${pubDate}</pubDate>

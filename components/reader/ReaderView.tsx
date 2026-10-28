@@ -241,9 +241,9 @@ export default function ReaderView({
               onClick={() => trackEvent('donate_click', { bookId: book.id, chapterId: chapter.id })}
               className="text-[var(--accent)] hover:underline"
             >
-              consider leaving a tip on Paystack
-            </Link>{' '}
-            — mobile money and card tips help the next chapter get written.
+              leave a tip
+            </Link>
+            : mobile money and card tips help the next chapter get written.
           </div>
         </div>
       </main>
