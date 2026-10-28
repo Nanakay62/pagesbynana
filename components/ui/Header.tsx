@@ -78,12 +78,6 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/admin"
-            className="text-[13px] px-2.5 py-1 rounded text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--surface)] transition-colors hover:no-underline"
-          >
-            Admin
-          </Link>
           <button
             onClick={cycleTheme}
             aria-label="Toggle visual theme"
