@@ -33,6 +33,8 @@ export function cleanWordHtml(html: string): string {
     .replace(/ class="[^"]*"/gi, '')
     // Remove empty paragraphs
     .replace(/<p>\s*(&nbsp;|\s)*<\/p>/gi, '')
+    // Replace em dashes
+    .replace(/—/g, ', ')
     .trim();
 
   return cleaned;

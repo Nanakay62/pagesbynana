@@ -29,6 +29,7 @@ function cleanHtml(html) {
     .replace(/ style="[^"]*"/gi, '')
     .replace(/ class="[^"]*"/gi, '')
     .replace(/<p>\s*(&nbsp;|\s)*<\/p>/gi, '')
+    .replace(/—/g, ', ')
     .trim();
 }
 
