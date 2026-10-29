@@ -16,9 +16,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // 1. Vercel free domains (*.vercel.app) do not support sub-subdomains like admin.*.vercel.app
+  // On vercel.app domains, allow direct /admin access without redirecting to an unreachable domain.
+  if (hostname.endsWith('.vercel.app')) {
+    return NextResponse.next();
+  }
+
   const isAdminSubdomain = hostname.startsWith('admin.');
 
-  // 1. If on the admin subdomain (e.g. admin.localhost:3000 or admin.pagesbynana.com)
+  // 2. If on the admin subdomain (e.g. admin.localhost:3000 or admin.pagesbynana.com)
   if (isAdminSubdomain) {
     // Root of admin subdomain points to /admin dashboard
     if (pathname === '/') {
@@ -35,10 +41,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 2. If on main reader site (e.g. localhost:3000 or pagesbynana.com):
-  // When trying to access /admin directly on the main domain, redirect to the admin subdomain
+  // 3. If on main reader site with a custom domain or localhost:
+  // When trying to access /admin directly on custom domain, redirect to admin.<domain>
   if (pathname.startsWith('/admin')) {
-    // If on raw IP 127.0.0.1, redirect to admin.localhost with current port
     const port = host.includes(':') ? `:${host.split(':')[1]}` : '';
     const adminHost = hostname === '127.0.0.1' || hostname === 'localhost'
       ? `admin.localhost${port}`
