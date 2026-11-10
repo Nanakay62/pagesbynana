@@ -40,7 +40,7 @@ export async function getPublishedBooks(): Promise<Book[]> {
 
     if (error) {
       console.error('Error fetching published books from Supabase:', error);
-      return [];
+      return SAMPLE_BOOKS;
     }
 
     const books = (data || []).map((b: any) => ({
@@ -48,10 +48,10 @@ export async function getPublishedBooks(): Promise<Book[]> {
       chapters: (b.chapters || []).sort((c1: any, c2: any) => (c1.number || 0) - (c2.number || 0)),
     }));
 
-    return books as Book[];
+    return (books.length > 0 ? books : SAMPLE_BOOKS) as Book[];
   } catch (err) {
     console.error('Failed to query Supabase books:', err);
-    return [];
+    return SAMPLE_BOOKS;
   }
 }
 
@@ -72,7 +72,7 @@ export async function getAllAdminBooks(): Promise<Book[]> {
 
     if (error) {
       console.error('Error fetching admin books from Supabase:', error);
-      return [];
+      return SAMPLE_BOOKS;
     }
 
     const books = (data || []).map((b: any) => ({
@@ -80,10 +80,10 @@ export async function getAllAdminBooks(): Promise<Book[]> {
       chapters: (b.chapters || []).sort((c1: any, c2: any) => (c1.number || 0) - (c2.number || 0)),
     }));
 
-    return books as Book[];
+    return (books.length > 0 ? books : SAMPLE_BOOKS) as Book[];
   } catch (err) {
     console.error('Failed to query Supabase admin books:', err);
-    return [];
+    return SAMPLE_BOOKS;
   }
 }
 
