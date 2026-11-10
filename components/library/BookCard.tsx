@@ -8,6 +8,10 @@ export default function BookCard({ book }: { book: Book }) {
   const totalWords = book.chapters
     ? book.chapters.reduce((sum, c) => sum + (c.word_count || 0), 0)
     : 0;
+  const isArticle =
+    book.genre === 'Special Report' ||
+    book.genre === 'Article' ||
+    book.genre === 'Essay';
 
   return (
     <Link
@@ -26,15 +30,19 @@ export default function BookCard({ book }: { book: Book }) {
       <div className="flex items-center gap-2 text-[12.5px] text-[var(--muted)]">
         <span
           className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-semibold tracking-wide ${
-            book.status === 'completed'
+            isArticle
+              ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
+              : book.status === 'completed'
               ? 'bg-[var(--surface)] text-[var(--muted)] border border-[var(--border)]'
               : 'bg-[var(--accent-soft)] text-[var(--accent)]'
           }`}
         >
-          {book.status === 'completed' ? 'Completed' : 'Ongoing'}
+          {isArticle ? (book.genre || 'Article') : book.status === 'completed' ? 'Completed' : 'Ongoing'}
         </span>
         <span>
-          {chapterCount} chap{chapterCount !== 1 ? 's' : ''} · {formatWords(totalWords)} w
+          {isArticle
+            ? `${formatWords(totalWords)} w`
+            : `${chapterCount} chap${chapterCount !== 1 ? 's' : ''} · ${formatWords(totalWords)} w`}
         </span>
       </div>
     </Link>

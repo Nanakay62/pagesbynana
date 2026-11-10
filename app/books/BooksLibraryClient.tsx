@@ -32,11 +32,10 @@ export default function BooksLibraryClient({ books }: { books: Book[] }) {
 
   const filters = [
     { id: 'all', label: 'All' },
-    { id: 'published', label: 'Ongoing' },
+    { id: 'Techno-Thriller', label: 'Techno-Thrillers' },
+    { id: 'Special Report', label: 'Special Reports & Articles' },
+    { id: 'published', label: 'Ongoing Series' },
     { id: 'completed', label: 'Completed' },
-    { id: 'Literary Fantasy', label: 'Literary Fantasy' },
-    { id: 'Literary Fiction', label: 'Literary Fiction' },
-    { id: 'Historical Fiction', label: 'Historical Fiction' },
   ];
 
   return (

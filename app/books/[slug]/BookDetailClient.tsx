@@ -16,6 +16,10 @@ export default function BookDetailClient({ book }: { book: Book }) {
   const totalWords = chapters.reduce((sum, c) => sum + (c.word_count || 0), 0);
   const totalReadingTime = calculateReadingTime(totalWords);
   const firstChapter = chapters[0];
+  const isArticle =
+    book.genre === 'Special Report' ||
+    book.genre === 'Article' ||
+    book.genre === 'Essay';
 
   useEffect(() => {
     // Record book_open analytics event
@@ -64,15 +68,17 @@ export default function BookDetailClient({ book }: { book: Book }) {
             {book.title}
           </h1>
           <div className="text-[14px] text-[var(--muted)] mb-4">
-            by Nana Kwame Dickson ·{' '}
+            by {book.slug === 'the-illusion-of-skill' ? 'Joe' : 'Nana Kwame Dickson'} ·{' '}
             <span
               className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
-                book.status === 'completed'
+                isArticle
+                  ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
+                  : book.status === 'completed'
                   ? 'bg-[var(--surface)] text-[var(--muted)] border border-[var(--border)]'
                   : 'bg-[var(--accent-soft)] text-[var(--accent)]'
               }`}
             >
-              {book.status === 'completed' ? 'Completed' : 'Ongoing'}
+              {isArticle ? (book.genre || 'Special Report') : book.status === 'completed' ? 'Completed' : 'Ongoing'}
             </span>
           </div>
 
@@ -82,13 +88,13 @@ export default function BookDetailClient({ book }: { book: Book }) {
 
           <div className="flex flex-wrap gap-4 sm:gap-6 text-[13.5px] text-[var(--muted)] pb-5 mb-5 border-b border-[var(--border)]">
             <span>
-              <strong className="text-[var(--text)]">{chapters.length}</strong> chapters
+              <strong className="text-[var(--text)]">{chapters.length}</strong> {isArticle ? 'part' : chapters.length === 1 ? 'chapter' : 'chapters'}
             </span>
             <span>
               <strong className="text-[var(--text)]">{formatWords(totalWords)}</strong> words
             </span>
             <span>
-              <strong className="text-[var(--text)]">{totalReadingTime}</strong> min total
+              <strong className="text-[var(--text)]">{totalReadingTime}</strong> min read
             </span>
             <span>
               <strong className="text-[var(--text)]">1.2k</strong> reads
@@ -133,7 +139,7 @@ export default function BookDetailClient({ book }: { book: Book }) {
                 href={`/books/${book.slug}/${firstChapter.slug}`}
                 className="px-5 py-2.5 rounded bg-[var(--accent)] text-[var(--accent-contrast)] font-medium text-[14.5px] hover:brightness-105 transition-all hover:no-underline"
               >
-                Start reading
+                {isArticle ? 'Read report' : 'Start reading'}
               </Link>
             ) : null}
 
@@ -176,7 +182,7 @@ export default function BookDetailClient({ book }: { book: Book }) {
       {/* Chapter List */}
       <section className="py-10">
         <h2 className="font-serif-title font-medium text-[24px] text-[var(--text)] mb-6">
-          Chapters
+          {isArticle ? 'Report Contents' : 'Chapters'}
         </h2>
         <ul className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
           {chapters.map((c) => {

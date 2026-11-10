@@ -7,3 +7,7 @@ UPDATE books
 SET cover_url = '/covers/i-know-you.jpg', updated_at = NOW() 
 WHERE slug = 'i-know-you';
 
+UPDATE books 
+SET cover_url = '/covers/the-illusion-of-skill.jpg', updated_at = NOW() 
+WHERE slug = 'the-illusion-of-skill';
+

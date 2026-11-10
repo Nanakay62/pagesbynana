@@ -16,9 +16,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 1. Vercel free domains (*.vercel.app) do not support sub-subdomains like admin.*.vercel.app
-  // On vercel.app domains, allow direct /admin access without redirecting to an unreachable domain.
-  if (hostname.endsWith('.vercel.app')) {
+  // 1. Localhost and Vercel domains: allow direct /admin access without redirecting to an unreachable domain.
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.vercel.app')) {
     return NextResponse.next();
   }
 

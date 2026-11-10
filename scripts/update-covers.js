@@ -42,6 +42,10 @@ async function main() {
       slug: 'i-know-you',
       cover_url: '/covers/i-know-you.jpg',
     },
+    {
+      slug: 'the-illusion-of-skill',
+      cover_url: '/covers/the-illusion-of-skill.jpg',
+    },
   ];
 
   console.log('🖼️ Updating book cover URLs in Supabase...\n');
