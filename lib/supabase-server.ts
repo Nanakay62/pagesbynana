@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { SAMPLE_BOOKS } from './sample-data';
-import { Book, Chapter } from './types';
+import { Book, Chapter, isArticle } from './types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
@@ -158,4 +158,20 @@ export async function getChapter(
   if (!chapter) return null;
 
   return { book, chapter };
+}
+
+/**
+ * Fetch all published articles and special reports
+ */
+export async function getPublishedArticles(): Promise<Book[]> {
+  const all = await getPublishedBooks();
+  return all.filter(isArticle);
+}
+
+/**
+ * Fetch all published serialized fiction and books
+ */
+export async function getPublishedFiction(): Promise<Book[]> {
+  const all = await getPublishedBooks();
+  return all.filter((b) => !isArticle(b));
 }

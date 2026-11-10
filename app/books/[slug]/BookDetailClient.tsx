@@ -68,7 +68,7 @@ export default function BookDetailClient({ book }: { book: Book }) {
             {book.title}
           </h1>
           <div className="text-[14px] text-[var(--muted)] mb-4">
-            by {book.slug === 'the-illusion-of-skill' ? 'Joe' : 'Nana Kwame Dickson'} ·{' '}
+            by {book.author || 'Nana Kwame Dickson'} ·{' '}
             <span
               className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
                 isArticle

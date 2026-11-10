@@ -5,6 +5,8 @@ export interface Book {
   id: string;
   title: string;
   slug: string;
+  author?: string;
+  type?: 'book' | 'article';
   synopsis?: string;
   cover_url?: string;
   genre?: string;
@@ -14,6 +16,15 @@ export interface Book {
   updated_at?: string;
   tags?: string[];
   chapters?: Chapter[];
+}
+
+export function isArticle(item: Book): boolean {
+  return (
+    item.type === 'article' ||
+    item.genre === 'Special Report' ||
+    item.genre === 'Article' ||
+    item.genre === 'Essay'
+  );
 }
 
 export interface Chapter {

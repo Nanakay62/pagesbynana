@@ -46,12 +46,22 @@ export default function Header() {
             <Link
               href="/books"
               className={`px-3 py-1.5 rounded text-[14.5px] font-medium transition-colors hover:no-underline ${
-                pathname.startsWith('/books')
+                pathname === '/books'
                   ? 'text-[var(--accent)] font-semibold'
                   : 'text-[var(--text)] hover:bg-[var(--surface)]'
               }`}
             >
               Library
+            </Link>
+            <Link
+              href="/articles"
+              className={`px-3 py-1.5 rounded text-[14.5px] font-medium transition-colors hover:no-underline ${
+                pathname.startsWith('/articles')
+                  ? 'text-[var(--accent)] font-semibold'
+                  : 'text-[var(--text)] hover:bg-[var(--surface)]'
+              }`}
+            >
+              Articles
             </Link>
             <Link
               href="/about"

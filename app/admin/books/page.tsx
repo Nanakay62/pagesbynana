@@ -80,7 +80,14 @@ export default async function AdminBooksPage() {
                 return (
                   <tr key={b.id} className="hover:bg-[var(--bg)]/50 transition-colors">
                     <td className="py-3.5 px-4 font-medium text-[var(--text)]">
-                      {b.title}
+                      <div className="flex items-center gap-2">
+                        <span>{b.title}</span>
+                        {b.type === 'article' || b.genre === 'Special Report' ? (
+                          <span className="text-[10.5px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[var(--accent-soft)] text-[var(--accent)]">
+                            Article
+                          </span>
+                        ) : null}
+                      </div>
                     </td>
                     <td className="py-3.5 px-4 text-[var(--muted)]">{b.genre || '-'}</td>
                     <td className="py-3.5 px-4 text-[var(--muted)]">{chaps}</td>
