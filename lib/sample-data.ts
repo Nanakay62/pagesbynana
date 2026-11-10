@@ -12,6 +12,52 @@ export const DEFAULT_SETTINGS: SiteSettings = {
 
 export const SAMPLE_BOOKS: Book[] = [
   {
+    id: 'b0000000-0000-0000-0000-000000000001',
+    slug: 'the-silent-code',
+    title: 'The Silent Code',
+    genre: 'Speculative Fiction',
+    status: 'published',
+    is_featured: true,
+    cover_url: '/covers/the-silent-code.jpg',
+    synopsis: 'In Accra, Kwame Dickson uncovers a silent digital network reshaping the boundaries of identity, technology, and memory.',
+    tags: ['techno-thriller', 'ai', 'cyber', 'accra'],
+    chapters: [
+      {
+        id: 'c0000000-0000-0000-0000-000000000001',
+        book_id: 'b0000000-0000-0000-0000-000000000001',
+        number: 1,
+        slug: 'chapter-1',
+        title: 'Chapter 1',
+        word_count: 1850,
+        status: 'published',
+        content_html: '<p>The screen flickered in the dark room overlooking the city lights of Accra.</p>'
+      }
+    ]
+  },
+  {
+    id: 'b0000000-0000-0000-0000-000000000002',
+    slug: 'i-know-you',
+    title: 'I Know You',
+    genre: 'Literary Thriller',
+    status: 'published',
+    is_featured: false,
+    cover_url: '/covers/i-know-you.jpg',
+    synopsis: 'On the tenth floor of a coastal tower overlooking Accra, an unseen watcher and an invisible harvest collide.',
+    tags: ['thriller', 'surveillance', 'accra'],
+    chapters: [
+      {
+        id: 'c0000000-0000-0000-0000-000000000002',
+        book_id: 'b0000000-0000-0000-0000-000000000002',
+        number: 1,
+        slug: 'chapter-1',
+        title: 'Chapter 1',
+        word_count: 2100,
+        status: 'published',
+        content_html: '<p>On the tenth floor of a coastal tower overlooking Accra, the signal was clean.</p>'
+      }
+    ]
+  },
+  {
     id: 'b0000001-0000-0000-0000-000000000001',
     slug: 'the-lantern-keeper',
     title: 'The Lantern Keeper',

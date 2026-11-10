@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "import:manuscripts": "node scripts/import-local-manuscripts.js"
+    "import:manuscripts": "node scripts/import-local-manuscripts.js",
+    "update:covers": "node scripts/update-covers.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

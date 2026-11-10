@@ -202,6 +202,37 @@ button[class*="bg-[var(--accent)]"],
 .cover-c { background: linear-gradient(145deg, #3a2a18 0%, #8c6a3a 55%, #2a1e10 100%); }
 .cover-d { background: linear-gradient(145deg, #1e2a24 0%, #3a5a48 55%, #14201a 100%); }
 
+/* Image-based book covers */
+.book-cover-image {
+  aspect-ratio: 2/3;
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: block;
+  background: var(--surface);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.book-cover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Subtle book spine and edge lighting */
+.book-cover-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow:
+    inset 2px 0 4px rgba(0, 0, 0, 0.28),
+    inset -1px 0 2px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
 /* Subtle button base */
 .btn-accent {
   background: var(--accent);

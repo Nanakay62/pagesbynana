@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllAdminBooks } from '@/lib/supabase-server';
-import { ArrowLeft, Plus, Eye, Edit3 } from 'lucide-react';
+import { ArrowLeft, Eye, Edit3 } from 'lucide-react';
 import { calculateReadingTime, formatWords } from '@/lib/reading-time';
+import AdminBookHeader from '@/components/admin/AdminBookHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,39 +40,7 @@ export default async function AdminBookDetailPage({
         </Link>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="font-serif-title font-medium text-[28px] text-[var(--text)]">
-            {book.title}
-          </h1>
-          <div className="text-[13.5px] text-[var(--muted)] mt-0.5">
-            {book.genre} · <span className="capitalize">{book.status}</span> · {chapters.length} chapters
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <a
-            href={`/api/books/${book.slug}/export?format=markdown`}
-            download
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] text-[13px] font-medium hover:border-[var(--text)] transition-colors hover:no-underline"
-          >
-            Export .md
-          </a>
-          <a
-            href={`/api/books/${book.slug}/export?format=html`}
-            download
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] text-[13px] font-medium hover:border-[var(--text)] transition-colors hover:no-underline"
-          >
-            Export .html
-          </a>
-          <Link
-            href={`/admin/chapters/new?book_id=${book.id}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[var(--accent)] text-[var(--accent-contrast)] text-[13px] font-medium hover:brightness-105 transition-all hover:no-underline"
-          >
-            <Plus className="w-4 h-4" /> New chapter
-          </Link>
-        </div>
-      </div>
+      <AdminBookHeader book={book} />
 
       {/* Chapters Table */}
       <div className="rounded-[var(--radius-lg)] bg-[var(--surface)] border border-[var(--border)] overflow-hidden shadow-sm mb-8">
