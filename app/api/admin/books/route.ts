@@ -1,27 +1,15 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseAdmin, getSupabasePublic } from '@/lib/supabase-server';
+import { getSupabaseAdmin, getAllAdminBooks } from '@/lib/supabase-server';
+import { SAMPLE_BOOKS } from '@/lib/sample-data';
 
 export const runtime = 'nodejs';
 
 export async function GET() {
   try {
-    const supabase = getSupabaseAdmin() || getSupabasePublic();
-    if (!supabase) {
-      return NextResponse.json({ books: [] });
-    }
-
-    const { data, error } = await supabase
-      .from('books')
-      .select('*, chapters(*)')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ books: data || [] });
+    const books = await getAllAdminBooks();
+    return NextResponse.json({ books });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ books: SAMPLE_BOOKS });
   }
 }
 
