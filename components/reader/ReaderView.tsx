@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Book, Chapter } from '@/lib/types';
+import { Book, Chapter, isArticle } from '@/lib/types';
 import { calculateReadingTime, formatWords } from '@/lib/reading-time';
 import { trackEvent } from '@/lib/analytics';
 import ReaderTopbar from './ReaderTopbar';
@@ -141,7 +141,7 @@ export default function ReaderView({
       <main className="flex-1 max-w-[680px] w-full mx-auto px-5 pt-12 pb-28">
         <header className="text-center pb-8 mb-8 border-b border-[var(--border)]">
           <div className="text-[12px] uppercase tracking-widest text-[var(--accent)] font-semibold mb-2">
-            Chapter {chapter.number}
+            {isArticle(book) ? (book.genre || 'Special Report') : `Chapter ${chapter.number}`}
           </div>
           <h1 className="font-serif-title font-normal text-[32px] sm:text-[40px] leading-tight text-[var(--text)] mb-3">
             {chapter.title}
@@ -162,45 +162,48 @@ export default function ReaderView({
         />
 
         {/* Previous / Next Chapter Buttons */}
-        <div className="flex items-center justify-between gap-4 mt-12 pt-8 border-t border-[var(--border)]">
-          {prevChapter ? (
-            <Link
-              href={`/books/${book.slug}/${prevChapter.slug}`}
-              className="flex items-center gap-2 px-4 py-2 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--text)] transition-colors hover:no-underline text-[14px]"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Previous</span>
-            </Link>
-          ) : (
-            <span className="opacity-40 text-[14px] flex items-center gap-2 px-4 py-2">
-              <ArrowLeft className="w-4 h-4" /> Previous
-            </span>
-          )}
+        {(prevChapter || nextChapter) && (
+          <div className="flex items-center justify-between gap-4 mt-12 pt-8 border-t border-[var(--border)]">
+            {prevChapter ? (
+              <Link
+                href={`/books/${book.slug}/${prevChapter.slug}`}
+                className="flex items-center gap-2 px-4 py-2 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--text)] transition-colors hover:no-underline text-[14px]"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Previous</span>
+              </Link>
+            ) : (
+              <span className="opacity-40 text-[14px] flex items-center gap-2 px-4 py-2">
+                <ArrowLeft className="w-4 h-4" /> Previous
+              </span>
+            )}
 
-          {nextChapter ? (
-            <Link
-              href={`/books/${book.slug}/${nextChapter.slug}`}
-              className="flex items-center gap-2 px-4 py-2 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--text)] transition-colors hover:no-underline text-[14px]"
-            >
-              <span>Next: {nextChapter.title}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          ) : (
-            <span className="opacity-40 text-[14px] flex items-center gap-2 px-4 py-2">
-              Next <ArrowRight className="w-4 h-4" />
-            </span>
-          )}
-        </div>
+            {nextChapter ? (
+              <Link
+                href={`/books/${book.slug}/${nextChapter.slug}`}
+                className="flex items-center gap-2 px-4 py-2 rounded border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--text)] transition-colors hover:no-underline text-[14px]"
+              >
+                <span>Next: {nextChapter.title}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            ) : (
+              <span className="opacity-40 text-[14px] flex items-center gap-2 px-4 py-2">
+                Next <ArrowRight className="w-4 h-4" />
+              </span>
+            )}
+          </div>
+        )}
 
         {/* End of Chapter Card */}
         <div className="mt-14 p-7 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius-lg)] text-center shadow-[var(--shadow)]">
           <div className="font-serif-title text-[22px] text-[var(--accent)] mb-2">❦</div>
           <h3 className="font-serif-title font-medium text-[20px] text-[var(--text)] mb-1">
-            End of chapter
+            {isArticle(book) ? 'End of special report' : 'End of chapter'}
           </h3>
           <p className="text-[14.5px] text-[var(--muted)] mb-5">
-            You finished <em>{chapter.title}</em>.{' '}
-            {nextChapter ? 'The next chapter is ready.' : 'You are all caught up!'}
+            {isArticle(book)
+              ? `You finished "${book.title}". Thank you for reading.`
+              : `You finished ${chapter.title}. ${nextChapter ? 'The next chapter is ready.' : 'You are all caught up!'}`}
           </p>
 
           {nextChapter && (
@@ -219,10 +222,10 @@ export default function ReaderView({
 
           <div className="flex justify-center gap-3 mb-5">
             <Link
-              href={`/books/${book.slug}`}
+              href={isArticle(book) ? '/articles' : `/books/${book.slug}`}
               className="px-4 py-2 rounded text-[13.5px] border border-[var(--border)] text-[var(--text)] hover:bg-[var(--bg)] transition-colors hover:no-underline"
             >
-              All chapters
+              {isArticle(book) ? 'All articles' : 'All chapters'}
             </Link>
             <Link
               href="/support"
@@ -235,7 +238,7 @@ export default function ReaderView({
           </div>
 
           <div className="text-[13px] text-[var(--muted)] pt-4 border-t border-[var(--border)]">
-            Reading is completely free. If this chapter stayed with you,{' '}
+            Reading is completely free. If this {isArticle(book) ? 'report' : 'chapter'} stayed with you,{' '}
             <Link
               href="/support"
               onClick={() => trackEvent('donate_click', { bookId: book.id, chapterId: chapter.id })}
@@ -243,7 +246,7 @@ export default function ReaderView({
             >
               leave a tip
             </Link>
-            : mobile money and card tips help the next chapter get written.
+            : mobile money and card tips help the next release get written.
           </div>
         </div>
       </main>

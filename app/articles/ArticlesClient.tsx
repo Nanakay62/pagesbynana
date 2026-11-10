@@ -145,3 +145,4 @@ export default function ArticlesClient({ articles }: { articles: Book[] }) {
     </div>
   );
 }
+

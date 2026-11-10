@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Book } from '@/lib/types';
+import { Book, isArticle } from '@/lib/types';
 import BookCard from '@/components/library/BookCard';
 import { Search } from 'lucide-react';
 
@@ -12,10 +12,20 @@ export default function BooksLibraryClient({ books }: { books: Book[] }) {
   const filteredBooks = useMemo(() => {
     return books.filter((b) => {
       // Filter tab
-      const matchesTab =
-        activeFilter === 'all' ||
-        b.status === activeFilter ||
-        b.genre === activeFilter;
+      const isArt = isArticle(b);
+      let matchesTab = true;
+
+      if (activeFilter === 'all') {
+        matchesTab = true;
+      } else if (activeFilter === 'fiction') {
+        matchesTab = !isArt;
+      } else if (activeFilter === 'articles') {
+        matchesTab = isArt;
+      } else if (activeFilter === 'published' || activeFilter === 'completed') {
+        matchesTab = b.status === activeFilter;
+      } else {
+        matchesTab = b.genre === activeFilter || b.status === activeFilter;
+      }
 
       // Text query
       const q = query.toLowerCase().trim();
@@ -31,7 +41,9 @@ export default function BooksLibraryClient({ books }: { books: Book[] }) {
   }, [books, query, activeFilter]);
 
   const filters = [
-    { id: 'all', label: 'All Fiction' },
+    { id: 'all', label: 'All' },
+    { id: 'fiction', label: 'Fiction' },
+    { id: 'articles', label: 'Articles' },
     { id: 'Techno-Thriller', label: 'Techno-Thrillers' },
     { id: 'published', label: 'Ongoing' },
     { id: 'completed', label: 'Completed' },

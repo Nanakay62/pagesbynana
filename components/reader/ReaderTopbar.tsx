@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Book, Chapter } from '@/lib/types';
+import { Book, Chapter, isArticle } from '@/lib/types';
 import { List, Type } from 'lucide-react';
 
 interface ReaderTopbarProps {
@@ -21,6 +21,8 @@ export default function ReaderTopbar({
   onOpenSettings,
   onOpenDrawer,
 }: ReaderTopbarProps) {
+  const article = isArticle(book);
+
   return (
     <div
       className={`sticky top-0 z-40 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_92%,transparent)] backdrop-blur-md transition-transform duration-300 ${
@@ -30,14 +32,14 @@ export default function ReaderTopbar({
       <div className="max-w-[900px] mx-auto px-5 h-14 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-[13.5px] text-[var(--muted)] truncate">
           <Link
-            href={`/books/${book.slug}`}
+            href={article ? '/articles' : `/books/${book.slug}`}
             className="text-[var(--muted)] hover:text-[var(--text)] transition-colors hover:no-underline font-medium"
           >
             {book.title}
           </Link>
           <span className="opacity-50">/</span>
           <span className="text-[var(--text)] font-semibold truncate">
-            Ch. {chapter.number}. {chapter.title}
+            {article ? chapter.title : `Ch. ${chapter.number}. ${chapter.title}`}
           </span>
         </div>
 
@@ -45,19 +47,21 @@ export default function ReaderTopbar({
           <span className="text-[12px] font-mono text-[var(--muted)] min-w-[32px] text-right tabular-nums hidden sm:inline-block">
             {progressPercent}%
           </span>
-          <button
-            onClick={onOpenDrawer}
-            aria-label="Table of contents"
-            title="Chapters"
-            className="w-9 h-9 rounded-full flex items-center justify-center text-[var(--text)] hover:bg-[var(--surface)] transition-colors"
-          >
-            <List className="w-4 h-4" />
-          </button>
+          {!article && (
+            <button
+              onClick={onOpenDrawer}
+              aria-label="Table of contents"
+              title="Chapters"
+              className="w-9 h-9 rounded-full flex items-center justify-center text-[var(--text)] hover:bg-[var(--surface)] transition-colors cursor-pointer"
+            >
+              <List className="w-4 h-4" />
+            </button>
+          )}
           <button
             onClick={onOpenSettings}
             aria-label="Typography settings"
             title="Settings (Aa)"
-            className="w-9 h-9 rounded-full flex items-center justify-center text-[var(--text)] hover:bg-[var(--surface)] transition-colors"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-[var(--text)] hover:bg-[var(--surface)] transition-colors cursor-pointer"
           >
             <Type className="w-4 h-4" />
           </button>
